@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기숙사 출석체크 시스템</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏠 기숙사 출석체크 시스템</h1>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'register')">학생 등록</button>
+            <button class="tab-button" onclick="openTab(event, 'scan')">출석 스캔</button>
+            <button class="tab-button" onclick="openTab(event, 'manage')">출석 관리</button>
+        </nav>
+
+        <!-- 학생 등록 탭 -->
+        <div id="register" class="tab-content active">
+            <div class="section">
+                <h2>📝 학생 등록</h2>
+                <form id="studentForm">
+                    <div class="form-group">
+                        <label for="studentId">학번:</label>
+                        <input type="text" id="studentId" required placeholder="예: 2024001">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentName">이름:</label>
+                        <input type="text" id="studentName" required placeholder="홍길동">
+                    </div>
+                    <div class="form-group">
+                        <label for="dormitory">기숙사:</label>
+                        <select id="dormitory" required>
+                            <option value="">선택하세요</option>
+                            <option value="A동">A동</option>
+                            <option value="B동">B동</option>
+                            <option value="C동">C동</option>
+                            <option value="D동">D동</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="room">호실:</label>
+                        <input type="text" id="room" required placeholder="예: 101">
+                    </div>
+                    <button type="submit" class="btn btn-primary">학생 등록 & QR코드 생성</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h3>등록된 학생 목록</h3>
+                <div id="studentList" class="student-list"></div>
+            </div>
+        </div>
+
+        <!-- 출석 스캔 탭 -->
+        <div id="scan" class="tab-content">
+            <div class="section">
+                <h2>📷 QR코드 스캔 출석체크</h2>
+                <div class="scan-container">
+                    <div id="qr-reader" style="width: 100%; max-width: 500px; margin: 0 auto;"></div>
+                    <div class="scan-controls">
+                        <button id="startScan" class="btn btn-success">카메라 시작</button>
+                        <button id="stopScan" class="btn btn-danger" style="display: none;">카메라 정지</button>
+                    </div>
+                    <div id="scanResult" class="scan-result"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>오늘의 출석 현황</h3>
+                <div id="todayAttendance" class="attendance-today"></div>
+            </div>
+        </div>
+
+        <!-- 출석 관리 탭 -->
+        <div id="manage" class="tab-content">
+            <div class="section">
+                <h2>📊 출석 관리 및 통계</h2>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>총 등록 학생</h3>
+                        <div id="totalStudents" class="stat-number">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>오늘 출석</h3>
+                        <div id="todayAttendees" class="stat-number">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>출석률</h3>
+                        <div id="attendanceRate" class="stat-number">0%</div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="exportData" class="btn btn-info">데이터 내보내기 (CSV)</button>
+                    <button id="clearData" class="btn btn-warning">모든 데이터 초기화</button>
+                </div>
+
+                <h3>출석 기록</h3>
+                <div id="attendanceHistory" class="attendance-history"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
